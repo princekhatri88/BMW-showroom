@@ -1,0 +1,798 @@
+<!-- contact.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMW Community</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --bmw-blue: #0066B1;
+            --bmw-light-blue: #1C69D4;
+            --bmw-dark: #262626;
+            --bmw-gray: #333333;
+            --bmw-light-gray: #666666;
+            --bmw-white: #FFFFFF;
+            --bmw-gradient: linear-gradient(135deg, var(--bmw-blue), var(--bmw-light-blue));
+            --bmw-accent: #FFD700;
+            --bmw-success: #00C851;
+            --bmw-error: #ff4444;
+            --bmw-overlay: rgba(0, 0, 0, 0.6);
+            --bmw-card-bg: rgba(255, 255, 255, 0.1);
+            --bmw-text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            --bmw-box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            --bmw-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--bmw-white);
+            background-color: var(--bmw-dark);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(0, 102, 177, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(28, 105, 212, 0.1) 0%, transparent 50%);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 102, 177, 0.8));
+            padding-top: 100px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('images/community-bg.jpg') center/cover no-repeat;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: var(--bmw-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--bmw-gradient);
+            color: var(--bmw-white);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: var(--bmw-transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .about-card {
+            background: var(--bmw-card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: var(--bmw-transition);
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-icon {
+            font-size: 3rem;
+            color: var(--bmw-accent);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Member Highlights */
+        .members-section {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .member-card {
+            background: var(--bmw-card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: var(--bmw-transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .member-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 102, 177, 0.1));
+            z-index: 1;
+        }
+
+        .member-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            border: 3px solid var(--bmw-accent);
+            overflow: hidden;
+        }
+
+        .member-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Discussion Categories */
+        .categories-section {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .category-card {
+            background: var(--bmw-card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: var(--bmw-transition);
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Events Section */
+        .events-section {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .events-slider {
+            position: relative;
+            overflow: hidden;
+            margin-top: 3rem;
+        }
+
+        .event-card {
+            background: var(--bmw-card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem;
+            transition: var(--bmw-transition);
+        }
+
+        .event-date {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--bmw-accent);
+        }
+
+        /* Join Form */
+        .join-section {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .join-form {
+            max-width: 600px;
+            margin: 3rem auto;
+            background: var(--bmw-card-bg);
+            padding: 2rem;
+            border-radius: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--bmw-white);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: var(--bmw-white);
+            transition: var(--bmw-transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--bmw-light-blue);
+            box-shadow: 0 0 15px rgba(28, 105, 212, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bmw-overlay);
+            padding: 3rem 2rem;
+            color: var(--bmw-white);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--bmw-white);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--bmw-transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--bmw-light-blue);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--bmw-white);
+            font-size: 1.5rem;
+            transition: var(--bmw-transition);
+        }
+
+        .social-links a:hover {
+            color: var(--bmw-light-blue);
+            transform: scale(1.2);
+        }
+
+        /* Animations */
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(0, 102, 177, 0.5);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(28, 105, 212, 0.8);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-grid,
+            .members-grid,
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        /* Add navigation bar styles */
+        .flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            color: var(--bmw-light-blue);
+        }
+
+        .logo img {
+            width: 70px;
+            height: auto;
+            transition: all 0.3s ease;
+            filter: brightness(1.2);
+        }
+
+        .logo img:hover {
+            transform: scale(1.1);
+            filter: brightness(1.4);
+        }
+
+        .nav-links ul {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links a {
+            color: var(--bmw-white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            padding: 8px 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            border-radius: 8px;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--bmw-light-blue);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links a:hover::before {
+            transform: scaleX(1);
+        }
+
+        .nav-links a:hover {
+            color: var(--bmw-light-blue);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--bmw-light-blue);
+        }
+
+        .nav-links a.active::before {
+            transform: scaleX(1);
+        }
+
+        .auth-button {
+            margin-left: 20px;
+        }
+
+        .login-nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-nav-btn:hover {
+            background: var(--bmw-light-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(28, 105, 212, 0.3);
+        }
+
+        .login-nav-btn i {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .login-nav-btn:hover i {
+            transform: rotate(360deg);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .flex {
+                padding: 15px 20px;
+            }
+            
+            .logo img {
+                width: 50px;
+            }
+            
+            .login-nav-btn {
+                padding: 10px 15px;
+            }
+
+            .login-nav-btn span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Add Navigation Bar -->
+    <header class="flex">
+        <div class="logo">BMW</div>
+        <nav class="nav-links">
+            <ul class="link">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="models.html">Models</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="community.html" class="active">Community</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+        <div class="auth-button">
+            <a href="login.html" class="login-nav-btn">
+                <i class="fas fa-user"></i>
+                <span>Login</span>
+                <div class="btn-ripple"></div>
+            </a>
+        </div>
+        <div class="logo">
+            <img src="images/logo.png" alt="BMW Logo">
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>Join Our Community</h1>
+            <p>Connect, share, and grow with fellow BMW enthusiasts worldwide.</p>
+            <a href="#join" class="cta-button">Start Connecting</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="about-container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>About Our Community</h2>
+                <p>Discover what makes our community special</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-card" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-users about-icon"></i>
+                    <h3>Connect</h3>
+                    <p>Join thousands of BMW enthusiasts from around the world</p>
+                </div>
+                <div class="about-card" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-share-alt about-icon"></i>
+                    <h3>Share</h3>
+                    <p>Share your experiences, knowledge, and passion for BMW</p>
+                </div>
+                <div class="about-card" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-chart-line about-icon"></i>
+                    <h3>Grow</h3>
+                    <p>Learn from experts and enhance your BMW experience</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Member Highlights -->
+    <section class="members-section">
+        <div class="about-container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Featured Members</h2>
+                <p>Meet some of our active community members</p>
+            </div>
+            <div class="members-grid">
+                <div class="member-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="member-avatar">
+                        <img src="images/3.jpeg" alt="Member 1">
+                    </div>
+                    <h3>Oliver Zipse</h3>
+                    <p>BMW M Series Enthusiast</p>
+                </div>
+                <div class="member-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="member-avatar">
+                        <img src="images/1.jpeg" alt="Member 2">
+                    </div>
+                    <h3>Ilka Horstmeier</h3>
+                    <p>Electric Vehicle Expert</p>
+                </div>
+                <div class="member-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="member-avatar">
+                        <img src="images/2.jpeg" alt="Member 3">
+                    </div>
+                    <h3>David K.</h3>
+                    <p>Performance Tuning Specialist</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Discussion Categories -->
+    <section class="categories-section">
+        <div class="about-container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Discussion Topics</h2>
+                <p>Explore our popular community categories</p>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-car category-icon"></i>
+                    <h3>Models</h3>
+                    <p>Discuss BMW models and specifications</p>
+                </div>
+                <div class="category-card" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-tools category-icon"></i>
+                    <h3>Maintenance</h3>
+                    <p>Share tips and advice</p>
+                </div>
+                <div class="category-card" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-bolt category-icon"></i>
+                    <h3>Performance</h3>
+                    <p>Performance upgrades and tuning</p>
+                </div>
+                <div class="category-card" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fas fa-leaf category-icon"></i>
+                    <h3>Electric</h3>
+                    <p>Electric and hybrid technology</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="events-section">
+        <div class="about-container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Upcoming Events</h2>
+                <p>Join us at our next community gathering</p>
+            </div>
+            <div class="events-slider">
+                <div class="event-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="event-date">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>June 15, 2024</span>
+                    </div>
+                    <h3>BMW M Series Meetup</h3>
+                    <p>Join fellow M Series owners for a day of driving and networking</p>
+                </div>
+                <div class="event-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="event-date">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>July 20, 2024</span>
+                    </div>
+                    <h3>Electric Vehicle Workshop</h3>
+                    <p>Learn about BMW's latest electric technology</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Form -->
+    <section class="join-section" id="join">
+        <div class="about-container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Join Our Community</h2>
+                <p>Become part of our growing BMW family</p>
+            </div>
+            <form class="join-form" data-aos="fade-up">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="interest">Main Interest</label>
+                    <select id="interest" required>
+                        <option value="">Select your interest</option>
+                        <option value="models">BMW Models</option>
+                        <option value="performance">Performance</option>
+                        <option value="electric">Electric Vehicles</option>
+                        <option value="maintenance">Maintenance</option>
+                    </select>
+                </div>
+                <button type="submit" class="cta-button">Join Now</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Community Guidelines</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Events</a></li>
+                    <li><a href="#">Forums</a></li>
+                    <li><a href="#">Resources</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Form Validation
+        const form = document.querySelector('.join-form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const interest = document.getElementById('interest').value;
+            
+            if (name && email && interest) {
+                // Show success message
+                alert('Thank you for joining our community! We will contact you soon.');
+                form.reset();
+            } else {
+                alert('Please fill in all fields');
+            }
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

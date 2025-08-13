@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMW Gallery - Experience Luxury Through Images</title>
+    <link rel="stylesheet" href="gallery.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Add this line after the GSAP scripts in the head section -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        
+        /* Base Styles & Variables */
+:root {
+    --bmw-blue: #0066B1;
+    --bmw-light-blue: #1C69D4;
+    --bmw-dark: #262626;
+    --gradient-dark: linear-gradient(135deg, #000428, #004e92);
+    --text-light: #ffffff;
+    --text-gray: #a0a0a0;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--gradient-dark);
+    color: var(--text-light);
+    overflow-x: hidden;
+}
+
+/* Header & Navigation */
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    box-sizing: border-box;
+}
+
+.logo {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.logo img {
+    width: 70px;
+    height: auto;
+    transition: var(--transition);
+}
+
+.logo img:hover {
+    transform: scale(1.1);
+}
+
+.nav-links ul {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+}
+
+.nav-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    padding: 5px 0;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--bmw-light-blue);
+    transition: var(--transition);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-content {
+    text-align: center;
+    z-index: 2;
+    padding: 0 20px;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 1s forwards 0.5s;
+}
+
+.hero p {
+    font-size: 1.5rem;
+    margin: 20px 0;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 1s forwards 0.8s;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    animation: fadeIn 1s forwards 1.2s;
+}
+
+.mouse {
+    width: 30px;
+    height: 50px;
+    border: 2px solid white;
+    border-radius: 20px;
+    display: block;
+    position: relative;
+}
+
+.wheel {
+    width: 4px;
+    height: 8px;
+    background: white;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+    animation: scroll 1.5s infinite;
+}
+
+/* Filter Section */
+.filter-container {
+    padding: 40px 20px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 80px;
+    z-index: 10;
+}
+
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    border: 2px solid var(--bmw-light-blue);
+    background: transparent;
+    color: var(--text-light);
+    border-radius: 25px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: var(--bmw-light-blue);
+    transform: translateY(-2px);
+}
+
+/* Gallery Grid */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 40px 20px;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    cursor: pointer;
+    transform: translateY(50px);
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.gallery-item.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.gallery-item.wide {
+    grid-column: span 2;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.item-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    padding: 20px;
+    transform: translateY(100%);
+    transition: var(--transition);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+.gallery-item:hover .item-overlay {
+    transform: translateY(0);
+}
+
+/* Lightbox */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 90vh;
+    position: relative;
+}
+
+.lightbox-content img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    padding: 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.nav-btn:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.prev {
+    left: 20px;
+}
+
+.next {
+    right: 20px;
+}
+
+.close-lightbox {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.close-lightbox:hover {
+    transform: rotate(90deg);
+}
+
+/* Footer */
+.footer {
+    background: var(--bmw-dark);
+    padding: 60px 40px;
+    margin-top: 60px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-section h4 {
+    color: var(--bmw-light-blue);
+    margin-bottom: 20px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    color: var(--text-light);
+    font-size: 20px;
+    transition: var(--transition);
+}
+
+.social-icons a:hover {
+    color: var(--bmw-light-blue);
+    transform: translateY(-3px);
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 10px;
+}
+
+.newsletter-form input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+.newsletter-form button {
+    padding: 10px 20px;
+    background: var(--bmw-light-blue);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.newsletter-form button:hover {
+    background: var(--bmw-blue);
+}
+
+/* Animations */
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-50%) translateY(20px);
+        opacity: 0;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero p {
+        font-size: 1.2rem;
+    }
+    
+    .gallery-item.wide {
+        grid-column: span 1;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .filter-btn {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Model Showcase Section */
+.model-showcase {
+    padding: 100px 5%;
+    background: linear-gradient(to bottom, var(--bmw-dark), #000428);
+    position: relative;
+    overflow: hidden;
+}
+
+.section-title {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, var(--bmw-blue), #00ffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-gray);
+    margin-bottom: 4rem;
+}
+
+.model-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.model-card {
+    position: relative;
+    height: 400px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+.model-card img {
+    width: 100%;
+    height: 60%;
+    object-fit: cover;
+    border-radius: 20px 20px 0 0;
+}
+
+.model-specs {
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.8);
+    height: 40%;
+}
+
+.model-specs h3 {
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem;
+    color: var(--bmw-light-blue);
+}
+
+.specs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.spec-item {
+    text-align: center;
+}
+
+.spec-item i {
+    font-size: 1.2rem;
+    color: var(--bmw-light-blue);
+    margin-bottom: 0.3rem;
+}
+
+.explore-btn {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.8rem 2rem;
+    background: var(--bmw-light-blue);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.model-card:hover .explore-btn {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px);
+}
+
+/* Shine Effect */
+.model-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        225deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        transparent 100%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.model-card:hover::before {
+    transform: translateX(100%);
+}
+
+/* Modal Styles */
+.model-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.model-modal.active {
+    display: flex;
+}
+
+.modal-content {
+    width: 90%;
+    max-width: 1200px;
+    background: var(--bmw-dark);
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.modal-close:hover {
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+@media (max-width: 768px) {
+    .model-cards-container {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .modal-body {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+}
+
+
+    .loading {
+        position: relative;
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+    }
+
+    @keyframes loading {
+        0% {
+            background-position: 200% 0;
+        }
+        100% {
+            background-position: -200% 0;
+        }
+    }
+
+    /* Base Styles & Variables */
+    :root {
+        --bmw-blue: #0066B1;
+        --bmw-light-blue: #1C69D4;
+        --bmw-dark: #262626;
+        --gradient-dark: linear-gradient(135deg, #000428, #004e92);
+        --text-light: #ffffff;
+        --text-gray: #a0a0a0;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Navigation Bar */
+    .flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 40px;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+    }
+
+    .logo {
+        font-size: 32px;
+        font-weight: bold;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .logo:hover {
+        color: var(--bmw-light-blue);
+    }
+
+    .logo img {
+        width: 70px;
+        height: auto;
+        transition: all 0.3s ease;
+        filter: brightness(1.2);
+    }
+
+    .logo img:hover {
+        transform: scale(1.1);
+        filter: brightness(1.4);
+    }
+
+    .nav-links ul {
+        display: flex;
+        gap: 25px;
+        list-style: none;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 15px 25px;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-links a {
+        color: var(--text-light);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 16px;
+        padding: 8px 15px;
+        transition: all 0.3s ease;
+        position: relative;
+        border-radius: 8px;
+    }
+
+    .nav-links a::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--bmw-light-blue);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .nav-links a:hover::before {
+        transform: scaleX(1);
+    }
+
+    .nav-links a:hover {
+        color: var(--bmw-light-blue);
+        transform: translateY(-2px);
+    }
+
+    .nav-links a.active {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--bmw-light-blue);
+    }
+
+    .nav-links a.active::before {
+        transform: scaleX(1);
+    }
+
+    /* Auth Button Styling */
+    .auth-button {
+        margin-left: 20px;
+    }
+
+    .login-nav-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 25px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        color: white;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+
+    .login-nav-btn:hover {
+        background: var(--bmw-light-blue);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(28, 105, 212, 0.3);
+    }
+
+    .login-nav-btn i {
+        font-size: 16px;
+        transition: transform 0.3s ease;
+    }
+
+    .login-nav-btn:hover i {
+        transform: rotate(360deg);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+        }
+        
+        .flex {
+            padding: 15px 20px;
+        }
+        
+        .logo img {
+            width: 50px;
+        }
+        
+        .login-nav-btn {
+            padding: 10px 15px;
+        }
+        
+        .login-nav-btn span {
+            display: none;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="flex">
+        <div class="logo">BMW</div>
+        <nav class="nav-links">
+            <ul class="link">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="models.html">Models</a></li>
+                <li><a href="gallery.html" class="active">Gallery</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+        <div class="auth-button">
+            <a href="login.html" class="login-nav-btn">
+                <i class="fas fa-user"></i>
+                <span>Login</span>
+                <div class="btn-ripple"></div>
+            </a>
+        </div>
+        <div class="logo">
+            <img src="images/logo.png" alt="BMW Logo">
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="reveal-text">Experience BMW Through Images</h1>
+            <p class="reveal-text">Explore luxury, power, and precision through our exclusive gallery</p>
+            <div class="scroll-indicator">
+                <span class="mouse">
+                    <span class="wheel"></span>
+                </span>
+                <p>Scroll to Explore</p>
+            </div>
+        </div>
+        <video class="hero-background" autoplay muted loop playsinline>
+            <source src="images/gallry.mp4" type="video/mp4">
+        </video>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-container">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="m-series">M Series</button>
+            <button class="filter-btn" data-filter="electric">Electric</button>
+            <button class="filter-btn" data-filter="interior">Interior</button>
+            <button class="filter-btn" data-filter="exterior">Exterior</button>
+
+        </div>
+    </section>
+
+    <!-- Gallery Grid -->
+    <section class="gallery-grid">
+        <!-- Wide Banner -->
+        <div class="gallery-item wide" data-category="m-series">
+            <img src="images/m8.jpg" alt="BMW M8 Gran Coupé" loading="lazy">
+            <div class="item-overlay">
+                <h3>BMW M8 Gran Coupé</h3>
+                <p>Power meets luxury in perfect harmony</p>
+            </div>
+        </div>
+
+        <!-- Regular Items -->
+        <div class="gallery-item" data-category="electric">
+            <img src="images/ev i7.jpeg" alt="BMW i7 Front View" loading="lazy">
+            <div class="item-overlay">
+                <h3>BMW i7</h3>
+                <p>The future of electric luxury</p>
+        </div>
+        </div>
+
+        <!-- Add more gallery items following the same structure -->
+        <div class="gallery-item" data-category="m-series">
+            <img src="images/m3.jpg" alt="BMW M3" loading="lazy">
+            <div class="item-overlay">
+                <h3>BMW M3</h3>
+                <p>The icon of high performance</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="interior">
+            <img src="images/7-series-interior.jpg" alt="BMW 7 Series Interior" loading="lazy">
+            <div class="item-overlay">
+                <h3>7 Series Interior</h3>
+                <p>Luxury redefined from within</p>
+            </div>
+        </div>
+
+        <div class="gallery-item wide" data-category="electric">
+            <img src="images/i5.jpg" alt="BMW i5" loading="lazy">
+            <div class="item-overlay">
+                <h3>The All-New BMW i5</h3>
+                <p>Electric mobility meets executive presence</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="exterior">
+            <img src="images/x7-exterior.jpg" alt="BMW X7 Exterior" loading="lazy">
+            <div class="item-overlay">
+                <h3>X7 Exterior Design</h3>
+                <p>Commanding presence on every road</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox">
+        <button class="close-lightbox">
+            <i class="fas fa-times"></i>
+        </button>
+        <button class="nav-btn prev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="lightbox-content">
+            <img src="" alt="">
+            <div class="image-info">
+                <h3></h3>
+                <p></p>
+            </div>
+        </div>
+        <button class="nav-btn next">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- Premium Model Showcase Section -->
+    <section class="model-showcase">
+        <h2 class="section-title reveal-text">Explore Our Iconic Models</h2>
+        <p class="section-subtitle reveal-text">Experience the perfect fusion of luxury, innovation, and performance</p>
+        
+        <div class="model-cards-container">
+            <!-- M Series Models -->
+            <div class="model-card" data-tilt>
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="images/m4.jpg" alt="BMW M4 Competition" loading="lazy">
+                        <div class="model-specs">
+                            <h3>M4 Competition</h3>
+                            <p>Pure Performance DNA</p>
+                            <div class="specs-grid">
+                                <div class="spec-item">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>503 HP</span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="fas fa-stopwatch"></i>
+                                    <span>3.8s</span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="fas fa-gauge-high"></i>
+                                    <span>290 km/h</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="explore-btn">Explore <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Electric Models -->
+            <div class="model-card" data-tilt>
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="images/i7.jpg" alt="BMW i7" loading="lazy">
+                        <div class="model-specs">
+                            <h3>The First-Ever i7</h3>
+                            <p>Electric Excellence</p>
+                            <div class="specs-grid">
+                                <div class="spec-item">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>544 HP</span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="fas fa-battery-full"></i>
+                                    <span>625 km</span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="fas fa-stopwatch"></i>
+                                    <span>4.7s</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="explore-btn">Explore <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Luxury Models -->
+            <div class="model-card" data-tilt>
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="images/7 series.jpg" alt="BMW 7 Series" loading="lazy">
+                        <div class="model-specs">
+                            <h3>7 Series</h3>
+                            <p>Luxury Redefined</p>
+                            <div class="specs-grid">
+                                <div class="spec-item">
+                                    <i class="fas fa-crown"></i>
+                                    <span>Premium</span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="fas fa-engine"></i>
+                                    <span>V8</span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="fas fa-gauge-high"></i>
+                                    <span>250 km/h</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="explore-btn">Explore <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Sports Models -->
+            <div class="model-card" data-tilt>
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="images/z4.jpg" alt="BMW Z4" loading="lazy">
+                        <div class="model-specs">
+                            <h3>Z4 Roadster</h3>
+                            <p>Pure Driving Pleasure</p>
+                            <div class="specs-grid">
+                                <div class="spec-item">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>382 HP</span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="fas fa-wind"></i>
+                                    <span>Open-top</span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="fas fa-stopwatch"></i>
+                                    <span>4.4s</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="explore-btn">Explore <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+    </div>
+
+        <!-- Model Details Modal -->
+        <div class="model-modal">
+            <div class="modal-content">
+                <button class="modal-close"><i class="fas fa-times"></i></button>
+                <div class="modal-body">
+                    <div class="modal-image">
+                        <img src="" alt="">
+                    </div>
+                    <div class="modal-info">
+                        <h2></h2>
+                        <div class="detailed-specs"></div>
+                        <div class="feature-list"></div>
+                        <button class="configure-btn">Configure & Buy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Image Credits</h4>
+                <p>© BMW AG. All rights reserved.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="models.html">Models</a></li>
+                    <li><a href="performance.html">Performance</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Newsletter</h4>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </footer>
+
+    <script src="gallery.js"></script>
+    <script>
+    // Initialize Tilt.js for 3D card effect
+    const cards = document.querySelectorAll('.model-card');
+    cards.forEach(card => {
+        VanillaTilt.init(card, {
+            max: 15,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+            scale: 1.05
+        });
+    });
+
+    // Staggered card animation on scroll
+    gsap.from('.model-card', {
+        scrollTrigger: {
+            trigger: '.model-showcase',
+            start: 'top center+=100',
+            toggleActions: 'play none none reverse'
+        },
+        y: 100,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'power3.out'
+    });
+
+    // Section title animation
+    gsap.from('.section-title, .section-subtitle', {
+        scrollTrigger: {
+            trigger: '.model-showcase',
+            start: 'top center+=200'
+        },
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.3
+    });
+
+    // Modal functionality
+    const modal = document.querySelector('.model-modal');
+    const modalClose = modal.querySelector('.modal-close');
+    const modalImage = modal.querySelector('.modal-image img');
+    const modalTitle = modal.querySelector('.modal-info h2');
+    const modalSpecs = modal.querySelector('.detailed-specs');
+
+    function openModal(card) {
+        const cardImage = card.querySelector('img').src;
+        const cardTitle = card.querySelector('h3').textContent;
+        const specs = card.querySelector('.specs-grid').innerHTML;
+        
+        modalImage.src = cardImage;
+        modalTitle.textContent = cardTitle;
+        modalSpecs.innerHTML = specs;
+        
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        gsap.from('.modal-content', {
+            scale: 0.8,
+            opacity: 0,
+            duration: 0.5,
+            ease: 'power3.out'
+        });
+    }
+
+    cards.forEach(card => {
+        card.querySelector('.explore-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            openModal(card);
+        });
+    });
+
+    modalClose.addEventListener('click', () => {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    });
+
+    // Add shine effect on hover
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const { left, top, width, height } = card.getBoundingClientRect();
+            const x = (e.clientX - left) / width;
+            const y = (e.clientY - top) / height;
+            
+            card.style.setProperty('--mouse-x', x);
+            card.style.setProperty('--mouse-y', y);
+        });
+    });
+
+    // Lightbox functionality
+    const lightbox = document.querySelector('.lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    const lightboxTitle = lightbox.querySelector('.image-info h3');
+    const lightboxDesc = lightbox.querySelector('.image-info p');
+const galleryItems = document.querySelectorAll('.gallery-item');
+
+    function openLightbox(item) {
+        const img = item.querySelector('img');
+        const title = item.querySelector('h3').textContent;
+        const desc = item.querySelector('p').textContent;
+
+        lightboxImg.src = img.src;
+        lightboxTitle.textContent = title;
+        lightboxDesc.textContent = desc;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+galleryItems.forEach(item => {
+        item.addEventListener('click', () => openLightbox(item));
+    });
+
+    document.querySelector('.close-lightbox').addEventListener('click', () => {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    });
+
+    // Navigation between gallery items in lightbox
+    let currentIndex = 0;
+
+    function updateLightboxContent(index) {
+        const item = galleryItems[index];
+        const img = item.querySelector('img');
+        const title = item.querySelector('h3').textContent;
+        const desc = item.querySelector('p').textContent;
+
+        lightboxImg.src = img.src;
+        lightboxTitle.textContent = title;
+        lightboxDesc.textContent = desc;
+    }
+
+    document.querySelector('.prev').addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+        updateLightboxContent(currentIndex);
+    });
+
+    document.querySelector('.next').addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % galleryItems.length;
+        updateLightboxContent(currentIndex);
+    });
+
+    // Keyboard navigation for lightbox
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('active')) return;
+        
+        if (e.key === 'Escape') {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        if (e.key === 'ArrowLeft') {
+            currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+            updateLightboxContent(currentIndex);
+        }
+        if (e.key === 'ArrowRight') {
+            currentIndex = (currentIndex + 1) % galleryItems.length;
+            updateLightboxContent(currentIndex);
+        }
+    });
+
+    // Filter functionality enhancement
+    const filterButtons = document.querySelectorAll('.filter-btn');
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.getAttribute('data-filter');
+            
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            galleryItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                if (filter === 'all' || filter === category) {
+                    item.style.display = 'block';
+                    gsap.to(item, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.5,
+                        ease: 'power2.out'
+                    });
+                } else {
+                    gsap.to(item, {
+                        opacity: 0,
+                        y: 50,
+                        duration: 0.5,
+                        ease: 'power2.in',
+                        onComplete: () => {
+                            item.style.display = 'none';
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+    // Newsletter form validation
+    const newsletterForm = document.querySelector('.newsletter-form');
+    newsletterForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = newsletterForm.querySelector('input[type="email"]').value;
+        if (email) {
+            // Add your newsletter subscription logic here
+            alert('Thank you for subscribing!');
+            newsletterForm.reset();
+        }
+    });
+
+    // Initialize AOS (Animate On Scroll)
+    AOS.init({
+        duration: 1000,
+        once: true
+    });
+    </script>
+</body>
+</html>

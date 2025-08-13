@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Test Drive - BMW</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --bmw-blue: #0066B1;
+            --bmw-light-blue: #1C69D4;
+            --bmw-dark: #262626;
+            --gradient-dark: linear-gradient(135deg, #000428, #004e92);
+            --text-light: #ffffff;
+            --text-gray: #a0a0a0;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--gradient-dark);
+            margin: 0;
+            padding: 0;
+            color: var(--text-light);
+        }
+
+        /* Navigation Bar */
+        .flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            color: var(--bmw-light-blue);
+        }
+
+        .logo img {
+            width: 70px;
+            height: auto;
+            transition: var(--transition);
+        }
+
+        .logo img:hover {
+            transform: scale(1.1);
+        }
+
+        .nav-links ul {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            padding: 8px 15px;
+            transition: var(--transition);
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover {
+            color: var(--bmw-light-blue);
+            transform: translateY(-2px);
+        }
+
+        /* Test Drive Container */
+        .test-drive-container {
+            max-width: 1200px;
+            margin: 120px auto 40px;
+            padding: 0 20px;
+        }
+
+        .test-drive-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .test-drive-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+
+        .test-drive-header p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+        }
+
+        /* Car Preview Section */
+        .car-preview {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .car-preview:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .car-preview img {
+            width: 400px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+        }
+
+        .car-preview:hover img {
+            transform: scale(1.02);
+        }
+
+        .car-details {
+            flex: 1;
+        }
+
+        .car-details h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+
+        .car-details p {
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .spec-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .spec-item i {
+            color: var(--bmw-light-blue);
+            font-size: 1.2rem;
+        }
+
+        .spec-item span {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Form Styles */
+        .test-drive-form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--bmw-light-blue);
+            box-shadow: 0 0 0 2px rgba(28, 105, 212, 0.2);
+        }
+
+        .form-group.checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group.checkbox input {
+            width: auto;
+        }
+
+        .submit-btn {
+            background: var(--bmw-light-blue);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(28, 105, 212, 0.3);
+        }
+
+        /* Booking History Section */
+        .booking-history {
+            margin-top: 60px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .booking-history h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        .booking-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .booking-table th,
+        .booking-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .booking-table th {
+            color: var(--bmw-light-blue);
+            font-weight: 600;
+        }
+
+        .booking-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: rgba(255, 165, 0, 0.2);
+            color: #ffa500;
+        }
+
+        .status-confirmed {
+            background: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+        }
+
+        .status-cancelled {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff0000;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .car-preview {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .car-preview img {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .booking-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="flex">
+        <div class="logo">BMW</div>
+        <nav class="nav-links">
+            <ul class="link">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="models.html">Models</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+        <div class="logo">
+            <img src="images/5.png" alt="BMW Logo">
+        </div>
+    </header>
+
+    <div class="test-drive-container">
+        <div class="test-drive-header">
+            <h1>Book Your Test Drive</h1>
+            <p>Experience the thrill of driving a BMW</p>
+        </div>
+
+        <div class="car-preview">
+            <img id="selectedCarImage" src="" alt="Selected BMW Model">
+            <div class="car-details">
+                <h2 id="selectedCarName"></h2>
+                <p id="selectedCarSpecs"></p>
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span id="horsepower"></span>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-stopwatch"></i>
+                        <span id="acceleration"></span>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-gas-pump"></i>
+                        <span id="engine"></span>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-car"></i>
+                        <span id="driveType"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form id="testDriveForm" class="test-drive-form">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+
+            <div class="form-group">
+                <label for="preferredDate">Preferred Date</label>
+                <input type="date" id="preferredDate" name="preferredDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="preferredTime">Preferred Time</label>
+                <select id="preferredTime" name="preferredTime" required>
+                    <option value="">Select a time</option>
+                    <option value="09:00">9:00 AM</option>
+                    <option value="10:00">10:00 AM</option>
+                    <option value="11:00">11:00 AM</option>
+                    <option value="12:00">12:00 PM</option>
+                    <option value="13:00">1:00 PM</option>
+                    <option value="14:00">2:00 PM</option>
+                    <option value="15:00">3:00 PM</option>
+                    <option value="16:00">4:00 PM</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Preferred Location</label>
+                <select id="location" name="location" required>
+                    <option value="">Select a location</option>
+                    <option value="downtown">Downtown Showroom</option>
+                    <option value="north">North Showroom</option>
+                    <option value="south">South Showroom</option>
+                    <option value="east">East Showroom</option>
+                    <option value="west">West Showroom</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Additional Notes</label>
+                <textarea id="message" name="message" rows="4"></textarea>
+            </div>
+
+            <div class="form-group checkbox">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">I agree to the terms and conditions</label>
+            </div>
+
+            <button type="submit" class="submit-btn">Book Test Drive</button>
+        </form>
+
+        <div class="booking-history">
+            <h2>Your Test Drive Bookings</h2>
+            <table class="booking-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Model</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="bookingHistory">
+                    <!-- Bookings will be added here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Get model information from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const modelName = urlParams.get('model');
+        const modelImage = urlParams.get('image');
+        const modelSpecs = urlParams.get('specs');
+
+        // Model data mapping
+        const modelData = {
+            '2 Series': {
+                horsepower: '255 HP',
+                acceleration: '5.5s 0-60',
+                engine: '2.0L TwinPower Turbo',
+                driveType: 'RWD/AWD'
+            },
+            '3 Series': {
+                horsepower: '255 HP',
+                acceleration: '5.6s 0-60',
+                engine: '2.0L TwinPower Turbo',
+                driveType: 'RWD/AWD'
+            },
+            '5 Series': {
+                horsepower: '523 HP',
+                acceleration: '3.4s 0-60',
+                engine: '3.0L TwinTurbo',
+                driveType: 'AWD'
+            },
+            '7 Series': {
+                horsepower: '536 HP',
+                acceleration: '4.1s 0-60',
+                engine: '3.0L I6',
+                driveType: 'AWD'
+            },
+            'X5': {
+                horsepower: '335 HP',
+                acceleration: '5.3s 0-60',
+                engine: '3.0L Turbo',
+                driveType: 'AWD'
+            },
+            'X7': {
+                horsepower: '630 HP',
+                acceleration: '4.5s 0-60',
+                engine: '4.4L V8',
+                driveType: 'AWD'
+            },
+            'i5': {
+                horsepower: '590 HP',
+                acceleration: '3.7s 0-60',
+                engine: 'Dual Electric Motors',
+                driveType: 'AWD'
+            },
+            'iX1': {
+                horsepower: '313 HP',
+                acceleration: '5.6s 0-60',
+                engine: '66.5 kWh Battery',
+                driveType: 'AWD'
+            },
+            'M340i': {
+                horsepower: '382 HP',
+                acceleration: '4.1s 0-60',
+                engine: '3.0L Turbo',
+                driveType: 'AWD'
+            },
+            'M8': {
+                horsepower: '617 HP',
+                acceleration: '3.0s 0-60',
+                engine: '4.4L V8',
+                driveType: 'AWD'
+            }
+        };
+
+        // Update the page with model information
+        function updateModelInfo() {
+            document.getElementById('selectedCarName').textContent = modelName || 'Select a BMW Model';
+            document.getElementById('selectedCarImage').src = modelImage || 'images/default-car.jpg';
+            document.getElementById('selectedCarSpecs').textContent = modelSpecs || '';
+
+            if (modelName && modelData[modelName]) {
+                const data = modelData[modelName];
+                document.getElementById('horsepower').textContent = data.horsepower;
+                document.getElementById('acceleration').textContent = data.acceleration;
+                document.getElementById('engine').textContent = data.engine;
+                document.getElementById('driveType').textContent = data.driveType;
+            }
+        }
+
+        // Initialize model information
+        updateModelInfo();
+
+        // Form submission handling
+        document.getElementById('testDriveForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                model: modelName,
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                preferredDate: document.getElementById('preferredDate').value,
+                preferredTime: document.getElementById('preferredTime').value,
+                location: document.getElementById('location').value,
+                message: document.getElementById('message').value,
+                status: 'pending',
+                bookingDate: new Date().toISOString()
+            };
+
+            // Save booking to localStorage
+            saveBooking(formData);
+
+            // Show success message
+            alert('Thank you for booking a test drive! We will contact you shortly to confirm your appointment.');
+            
+            // Reset form
+            this.reset();
+
+            // Update booking history
+            updateBookingHistory();
+        });
+
+        // Function to save booking to localStorage
+        function saveBooking(booking) {
+            let bookings = JSON.parse(localStorage.getItem('testDriveBookings')) || [];
+            bookings.push(booking);
+            localStorage.setItem('testDriveBookings', JSON.stringify(bookings));
+        }
+
+        // Function to update booking history table
+        function updateBookingHistory() {
+            const bookings = JSON.parse(localStorage.getItem('testDriveBookings')) || [];
+            const tbody = document.getElementById('bookingHistory');
+            tbody.innerHTML = '';
+
+            bookings.forEach(booking => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${new Date(booking.preferredDate).toLocaleDateString()}</td>
+                    <td>${booking.preferredTime}</td>
+                    <td>${booking.model}</td>
+                    <td>${booking.location}</td>
+                    <td><span class="status status-${booking.status}">${booking.status}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Initialize booking history on page load
+        updateBookingHistory();
+
+        // Set minimum date for date picker to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('preferredDate').min = today;
+    </script>
+</body>
+</html> 

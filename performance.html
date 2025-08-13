@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMW Performance</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="performance.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<style>
+    /* BMW Theme Colors */
+:root {
+    --bmw-blue: #0066B1;
+    --bmw-dark-blue: #003366;
+    --bmw-red: #FF0000;
+    --bmw-silver: #E6E6E6;
+    --bmw-dark: #262626;
+    --gradient-dark: linear-gradient(135deg, var(--bmw-dark) 0%, #000 100%);
+}
+
+/* Base Styles */
+body {
+    background-color: var(--bmw-dark);
+    color: #fff;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sticky Navigation */
+.sticky-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+}
+
+.nav-logo img {
+    height: 35px;
+    transition: transform 0.3s ease;
+}
+
+.nav-logo img:hover {
+    transform: scale(1.1);
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    color: var(--bmw-silver);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.4rem 0.8rem;
+    transition: all 0.3s ease;
+    position: relative;
+    white-space: nowrap;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--bmw-blue);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--bmw-blue);
+}
+
+@media (max-width: 768px) {
+    .sticky-nav {
+        padding: 0.8rem;
+    }
+
+    .nav-links {
+        gap: 0.8rem;
+    }
+
+    .nav-links a {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .nav-logo img {
+        height: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-links {
+        gap: 0.5rem;
+    }
+
+    .nav-links a {
+        padding: 0.3rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Hero Section */
+.hero-section {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 2rem;
+}
+
+.animate-text {
+    font-size: 5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s forwards;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.animate-text-delay {
+    font-size: 1.8rem;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s forwards 0.5s;
+}
+
+/* Power Stats Section */
+.power-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 6rem 2rem;
+    background: var(--gradient-dark);
+}
+
+.stat-card {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 102, 177, 0.2);
+}
+
+.stat-number {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: var(--bmw-blue);
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 1.2rem;
+    color: var(--bmw-silver);
+}
+
+/* M Series Showcase */
+.m-series {
+    padding: 6rem 2rem;
+    background: var(--gradient-dark);
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.m-series-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.m-car {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.m-car:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 102, 177, 0.3);
+}
+
+.m-car img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.m-car:hover img {
+    transform: scale(1.1);
+}
+
+.car-details {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 2rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    transform: translateY(100px);
+    transition: transform 0.3s ease;
+}
+
+.m-car:hover .car-details {
+    transform: translateY(0);
+}
+
+.details-btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background: var(--bmw-blue);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+.details-btn:hover {
+    background: var(--bmw-dark-blue);
+    transform: scale(1.05);
+}
+
+/* Dynamic Features */
+.dynamic-features {
+    padding: 6rem 2rem;
+    background: var(--bmw-dark);
+}
+
+.feature-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.feature {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.feature:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 102, 177, 0.2);
+}
+
+.feature i {
+    font-size: 2.5rem;
+    color: var(--bmw-blue);
+    margin-bottom: 1rem;
+}
+
+/* Engine Technology Section */
+.engine-tech {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    padding: 6rem 2rem;
+    background: var(--gradient-dark);
+    align-items: center;
+}
+
+.tech-content {
+    padding: 2rem;
+}
+
+.tech-specs {
+    list-style: none;
+    margin-top: 2rem;
+}
+
+.tech-specs li {
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.tech-specs i {
+    color: var(--bmw-blue);
+}
+
+.tech-image img {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+}
+
+.tech-image img:hover {
+    transform: scale(1.05);
+}
+
+/* Track Performance */
+.track-performance {
+    padding: 6rem 2rem;
+    background: url('images/track-bg.jpg') center/cover fixed;
+    position: relative;
+}
+
+.track-performance::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.track-stats {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+}
+
+.stat-circle {
+    width: 150px;
+    height: 150px;
+    border: 3px solid var(--bmw-blue);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+/* CTA Section */
+.cta-section {
+    padding: 6rem 2rem;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                url('images/cta-bg.jpg') center/cover fixed;
+    text-align: center;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background: var(--bmw-blue);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    margin-top: 2rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.cta-button:hover {
+    background: var(--bmw-dark-blue);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 102, 177, 0.5);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .engine-tech {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .animate-text {
+        font-size: 4rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .animate-text {
+        font-size: 3rem;
+    }
+
+    .power-stats {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .track-stats {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .m-series-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .animate-text {
+        font-size: 2.5rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+}
+
+/* Performance Models Section */
+.performance-models {
+    padding: 6rem 2rem;
+    background: var(--gradient-dark);
+    position: relative;
+    z-index: 1;
+    margin-bottom: 6rem;
+}
+
+.performance-models .section-title {
+    text-align: center;
+    margin-bottom: 4rem;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.models-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+}
+
+.model-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.model-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.model-info {
+    padding: 2rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.model-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--bmw-silver);
+}
+
+.model-info p {
+    color: var(--bmw-silver);
+    opacity: 0.8;
+    margin-bottom: 1.5rem;
+}
+
+.model-specs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.spec-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--bmw-silver);
+}
+
+.spec-item i {
+    color: var(--bmw-blue);
+}
+
+.details-btn {
+    margin-top: auto;
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background: var(--bmw-blue);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.details-btn:hover {
+    background: var(--bmw-dark-blue);
+    transform: translateY(-2px);
+}
+
+/* Detailed Specs Modal */
+.specs-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background: var(--bmw-dark);
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 15px;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.specs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.spec-group {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 10px;
+}
+
+.spec-group h3 {
+    color: var(--bmw-blue);
+    margin-bottom: 1rem;
+}
+
+/* Performance Animation */
+@keyframes speedometer {
+    0% { transform: rotate(-90deg); }
+    100% { transform: rotate(90deg); }
+}
+
+.speedometer {
+    width: 150px;
+    height: 150px;
+    border: 5px solid var(--bmw-blue);
+    border-radius: 50%;
+    position: relative;
+    margin: 2rem auto;
+}
+
+.speedometer::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 50%;
+    background: var(--bmw-blue);
+    transform-origin: bottom;
+    animation: speedometer 2s infinite alternate;
+}
+
+/* Footer Styles */
+.footer {
+    background: var(--bmw-dark);
+    padding: 4rem 2rem 2rem;
+    position: relative;
+    z-index: 2;
+    margin-top: auto;
+    clear: both;
+}
+
+main {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+</style>
+<body>
+    <!-- Navigation stays outside main -->
+    <nav class="sticky-nav">
+        <div class="nav-logo">
+            <a href="home.html">
+                <img src="images/logo.png" alt="BMW Logo">
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="performance.html" class="active">Performance</a></li>
+            <li><a href="innovation.html">Innovation</a></li>
+            <li><a href="luxury.html">Luxury</a></li>
+            <li><a href="booking.html">Book Now</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <video autoplay muted loop class="hero-video">
+                <source src="images/performance2.webm" type="video/mp4">
+            </video>
+            <div class="hero-content">
+                <h1 class="animate-text">ULTIMATE PERFORMANCE</h1>
+                <p class="animate-text-delay">Experience the thrill of BMW M Power</p>
+            </div>
+            <div class="scroll-indicator">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- Power Stats Section -->
+        <section class="power-stats">
+            <div class="stat-card" data-aos="fade-up">
+                <div class="stat-number">3.0</div>
+                <div class="stat-label">0-60 mph (seconds)</div>
+            </div>
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-number">503</div>
+                <div class="stat-label">Horsepower</div>
+            </div>
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-number">479</div>
+                <div class="stat-label">lb-ft Torque</div>
+            </div>
+        </section>
+
+        <!-- M Series Showcase -->
+        <section class="m-series">
+            <h2 class="section-title" data-aos="fade-up">M SERIES EXCELLENCE</h2>
+            <div class="m-series-grid">
+                <div class="m-car" data-aos="fade-right">
+                    <img src="images/m3.jpg" alt="BMW M3">
+                    <div class="car-details">
+                        <h3>BMW M3 Competition</h3>
+                        <p>Pure racing DNA, evolved.</p>
+                        <a href="#" class="details-btn">Explore M3</a>
+                    </div>
+                </div>
+                <div class="m-car" data-aos="fade-up">
+                    <img src="images/m5.jpg" alt="BMW M5">
+                    <div class="car-details">
+                        <h3>BMW M5 Competition</h3>
+                        <p>Power meets luxury.</p>
+                        <a href="#" class="details-btn">Explore M5</a>
+                    </div>
+                </div>
+                <div class="m-car" data-aos="fade-left">
+                    <img src="images/m8.jpg" alt="BMW M8">
+                    <div class="car-details">
+                        <h3>BMW M8 Gran Coupé</h3>
+                        <p>The ultimate expression of luxury performance.</p>
+                        <a href="#" class="details-btn">Explore M8</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Features -->
+        <section class="dynamic-features">
+            <h2 class="section-title" data-aos="fade-up">PERFORMANCE FEATURES</h2>
+            <div class="feature-container">
+                <div class="feature" data-aos="zoom-in">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <h3>M xDrive</h3>
+                    <p>Intelligent all-wheel drive system for maximum traction</p>
+                </div>
+                <div class="feature" data-aos="zoom-in" data-aos-delay="200">
+                    <i class="fas fa-cogs"></i>
+                    <h3>M Sport Differential</h3>
+                    <p>Optimized torque distribution for enhanced dynamics</p>
+                </div>
+                <div class="feature" data-aos="zoom-in" data-aos-delay="400">
+                    <i class="fas fa-brake-disk"></i>
+                    <h3>M Compound Brakes</h3>
+                    <p>Superior stopping power and precision</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Engine Technology -->
+        <section class="engine-tech">
+            <div class="tech-content" data-aos="fade-right">
+                <h2>M TWIN POWER TURBO</h2>
+                <p>Experience the heart of BMW M Performance</p>
+                <ul class="tech-specs">
+                    <li><i class="fas fa-check"></i> High-precision direct injection</li>
+                    <li><i class="fas fa-check"></i> Double-VANOS technology</li>
+                    <li><i class="fas fa-check"></i> M TwinPower Turbo technology</li>
+                </ul>
+            </div>
+            <div class="tech-image" data-aos="fade-left">
+                <img src="images/m engine.jpg" alt="BMW M Engine">
+            </div>
+        </section>
+
+        <!-- Track Performance -->
+        <section class="track-performance">
+            <h2 class="section-title">TRACK-READY PERFORMANCE</h2>
+            <div class="track-stats">
+                <div class="track-stat" data-aos="fade-up">
+                    <div class="stat-circle">
+                        <span class="stat-value">7:25</span>
+                        <span class="stat-unit">min</span>
+                    </div>
+                    <p>Nürburgring Lap Time</p>
+                </div>
+                <!-- Add more track statistics -->
+            </div>
+        </section>
+
+        <!-- Performance Models Section -->
+        <section class="performance-models">
+            <h2 class="section-title" data-aos="fade-up">PERFORMANCE MODELS</h2>
+            <div class="models-grid">
+                <div class="model-card" data-aos="fade-up">
+                    <img src="images/m2.jpg" alt="BMW M2" class="model-image">
+                    <div class="model-info">
+                        <h3>BMW M2</h3>
+                        <p>Pure driving pleasure in its most concentrated form</p>
+                        <div class="model-specs">
+                            <div class="spec-item">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>453 HP</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-bolt"></i>
+                                <span>406 lb-ft</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-clock"></i>
+                                <span>4.1s 0-60</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-road"></i>
+                                <span>155 MPH</span>
+                            </div>
+                        </div>
+                        <button class="details-btn" onclick="showSpecs('m2')">View Details</button>
+                    </div>
+                </div>
+
+                <div class="model-card" data-aos="fade-up" data-aos-delay="200">
+                    <img src="images/m3.jpg" alt="BMW M3" class="model-image">
+                    <div class="model-info">
+                        <h3>BMW M3</h3>
+                        <p>The ultimate sports sedan</p>
+                        <div class="model-specs">
+                            <div class="spec-item">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>503 HP</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-bolt"></i>
+                                <span>479 lb-ft</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-clock"></i>
+                                <span>3.8s 0-60</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-road"></i>
+                                <span>155 MPH</span>
+                            </div>
+                        </div>
+                        <button class="details-btn" onclick="showSpecs('m3')">View Details</button>
+                    </div>
+                </div>
+
+                <div class="model-card" data-aos="fade-up" data-aos-delay="400">
+                    <img src="images/i7.jpg" alt="BMW i7" class="model-image">
+                    <div class="model-info">
+                        <h3>BMW i7</h3>
+                        <p>Electric luxury redefined</p>
+                        <div class="model-specs">
+                            <div class="spec-item">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>536 HP</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-battery-full"></i>
+                                <span>300 mi</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-clock"></i>
+                                <span>4.5s 0-60</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-plug"></i>
+                                <span>Fast Charge</span>
+                            </div>
+                        </div>
+                        <button class="details-btn" onclick="showSpecs('i7')">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <div class="cta-content">
+                <h2 data-aos="fade-up">EXPERIENCE M POWER</h2>
+                <p data-aos="fade-up" data-aos-delay="200">Schedule a test drive today</p>
+                <a href="#" class="cta-button" data-aos="fade-up" data-aos-delay="400">Book Now</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer stays outside main -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-phone"></i> 1-800-BMW-CARS</p>
+                <p><i class="fas fa-envelope"></i> contact@bmw.com</p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Build Your BMW</a></li>
+                    <li><a href="#">Find a Dealer</a></li>
+                    <li><a href="#">Request a Test Drive</a></li>
+                    <li><a href="#">M Performance Parts</a></li>
+                </ul>
+            </div>
+        </div>
+        <p class="copyright">© 2025 BMW M. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Detailed Specs Modal -->
+    <div id="specsModal" class="specs-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeSpecs()">&times;</span>
+            <h2 id="modalTitle">Model Specifications</h2>
+            <div class="specs-grid">
+                <div class="spec-group">
+                    <h3>Performance</h3>
+                    <ul>
+                        <li>Engine: TwinPower Turbo 3.0L</li>
+                        <li>Horsepower: 503 HP</li>
+                        <li>Torque: 479 lb-ft</li>
+                        <li>0-60 mph: 3.8s</li>
+                        <li>Top Speed: 155 mph</li>
+                    </ul>
+                </div>
+                <div class="spec-group">
+                    <h3>Drivetrain</h3>
+                    <ul>
+                        <li>Transmission: 8-Speed M Steptronic</li>
+                        <li>Drive Type: M xDrive AWD</li>
+                        <li>Differential: M Sport Differential</li>
+                    </ul>
+                </div>
+                <div class="spec-group">
+                    <h3>Handling</h3>
+                    <ul>
+                        <li>Suspension: Adaptive M Suspension</li>
+                        <li>Brakes: M Compound Brakes</li>
+                        <li>Steering: M Servotronic</li>
+                    </ul>
+                </div>
+                <div class="spec-group">
+                    <h3>Features</h3>
+                    <ul>
+                        <li>Drive Modes: Comfort, Sport, Sport+</li>
+                        <li>Launch Control</li>
+                        <li>M Dynamic Mode</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="speedometer"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Scroll indicator fade
+        window.addEventListener('scroll', function() {
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            if (window.scrollY > 100) {
+                scrollIndicator.style.opacity = '0';
+            } else {
+                scrollIndicator.style.opacity = '1';
+            }
+        });
+
+        function showSpecs(model) {
+            const modal = document.getElementById('specsModal');
+            const title = document.getElementById('modalTitle');
+            const specsGrid = modal.querySelector('.specs-grid');
+            
+            // Update modal content based on model
+            switch(model) {
+                case 'm2':
+                    title.textContent = 'BMW M2 Specifications';
+                    specsGrid.innerHTML = `
+                        <div class="spec-group">
+                            <h3>Performance</h3>
+                            <ul>
+                                <li>Engine: TwinPower Turbo 3.0L</li>
+                                <li>Horsepower: 453 HP</li>
+                                <li>Torque: 406 lb-ft</li>
+                                <li>0-60 mph: 4.1s</li>
+                                <li>Top Speed: 155 mph</li>
+                            </ul>
+                        </div>
+                        <div class="spec-group">
+                            <h3>Drivetrain</h3>
+                            <ul>
+                                <li>Transmission: 7-Speed M Steptronic</li>
+                                <li>Drive Type: RWD</li>
+                                <li>Differential: M Sport Differential</li>
+                            </ul>
+                        </div>
+                        <div class="spec-group">
+                            <h3>Handling</h3>
+                            <ul>
+                                <li>Suspension: Adaptive M Suspension</li>
+                                <li>Brakes: M Compound Brakes</li>
+                                <li>Steering: M Servotronic</li>
+                            </ul>
+                        </div>
+                        <div class="spec-group">
+                            <h3>Features</h3>
+                            <ul>
+                                <li>Drive Modes: Comfort, Sport, Sport+</li>
+                                <li>Launch Control</li>
+                                <li>M Dynamic Mode</li>
+                            </ul>
+                        </div>
+                    `;
+                    break;
+                case 'm3':
+                    title.textContent = 'BMW M3 Specifications';
+                    specsGrid.innerHTML = `
+                        <div class="spec-group">
+                            <h3>Performance</h3>
+                            <ul>
+                                <li>Engine: TwinPower Turbo 3.0L</li>
+                                <li>Horsepower: 503 HP</li>
+                                <li>Torque: 479 lb-ft</li>
+                                <li>0-60 mph: 3.8s</li>
+                                <li>Top Speed: 155 mph</li>
+                            </ul>
+                        </div>
+                        <div class="spec-group">
+                            <h3>Drivetrain</h3>
+                            <ul>
+                                <li>Transmission: 8-Speed M Steptronic</li>
+                                <li>Drive Type: M xDrive AWD</li>
+                                <li>Differential: M Sport Differential</li>
+                            </ul>
+                        </div>
+                        <div class="spec-group">
+                            <h3>Handling</h3>
+                            <ul>
+                                <li>Suspension: Adaptive M Suspension</li>
+                                <li>Brakes: M Compound Brakes</li>
+                                <li>Steering: M Servotronic</li>
+                            </ul>
+                        </div>
+                        <div class="spec-group">
+                            <h3>Features</h3>
+                            <ul>
+                                <li>Drive Modes: Comfort, Sport, Sport+</li>
+                                <li>Launch Control</li>
+                                <li>M Dynamic Mode</li>
+                            </ul>
+                        </div>
+                    `;
+                    break;
+                case 'i7':
+                    title.textContent = 'BMW i7 Specifications';
+                    specsGrid.innerHTML = `
+                        <div class="spec-group">
+                            <h3>Performance</h3>
+                            <ul>
+                                <li>Electric Motor: Dual Motor</li>
+                                <li>Horsepower: 536 HP</li>
+                                <li>Torque: 549 lb-ft</li>
+                                <li>0-60 mph: 4.5s</li>
+                                <li>Top Speed: 155 mph</li>
+                            </ul>
+                        </div>
+                        <div class="spec-group">
+                            <h3>Battery & Range</h3>
+                            <ul>
+                                <li>Battery Capacity: 101.7 kWh</li>
+                                <li>Range: 300 miles</li>
+                                <li>Charging: DC Fast Charging</li>
+                                <li>Charge Time: 10-80% in 34 min</li>
+                            </ul>
+                        </div>
+                        <div class="spec-group">
+                            <h3>Features</h3>
+                            <ul>
+                                <li>BMW iDrive 8</li>
+                                <li>BMW Curved Display</li>
+                                <li>BMW Natural Interaction</li>
+                            </ul>
+                        </div>
+                        <div class="spec-group">
+                            <h3>Comfort</h3>
+                            <ul>
+                                <li>Executive Lounge</li>
+                                <li>Panoramic Sky Lounge</li>
+                                <li>Bowers & Wilkins Sound</li>
+                            </ul>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+        }
+
+        function closeSpecs() {
+            const modal = document.getElementById('specsModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('specsModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Add parallax effect to model cards
+        window.addEventListener('scroll', function() {
+            const cards = document.querySelectorAll('.model-card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const scrolled = window.pageYOffset;
+                const speed = 0.1;
+                card.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

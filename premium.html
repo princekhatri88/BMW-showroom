@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMW Premium Subscription</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --bmw-blue: #0066B1;
+            --bmw-light-blue: #1C69D4;
+            --bmw-dark: #262626;
+            --bmw-gray: #333333;
+            --bmw-light-gray: #666666;
+            --bmw-white: #FFFFFF;
+            --bmw-gradient: linear-gradient(135deg, var(--bmw-blue), var(--bmw-light-blue));
+            --bmw-accent: #FFD700;
+            --bmw-success: #00C851;
+            --bmw-error: #ff4444;
+            --bmw-overlay: rgba(0, 0, 0, 0.6);
+            --bmw-card-bg: rgba(255, 255, 255, 0.1);
+            --bmw-text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            --bmw-box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            --bmw-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--bmw-white);
+            background-color: var(--bmw-dark);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(0, 102, 177, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(28, 105, 212, 0.1) 0%, transparent 50%);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 2rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 102, 177, 0.8));
+            z-index: -1;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: var(--bmw-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(0, 102, 177, 0.5);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(28, 105, 212, 0.8);
+            }
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .pricing-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .pricing-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: var(--bmw-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: var(--bmw-card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: var(--bmw-transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 102, 177, 0.1));
+            z-index: 1;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--bmw-light-blue);
+        }
+
+        .pricing-card.premium {
+            border: 2px solid var(--bmw-accent);
+            animation: pulse 2s infinite;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--bmw-white);
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: var(--bmw-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+
+        .features li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .features i {
+            color: var(--bmw-accent);
+        }
+
+        .subscribe-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--bmw-gradient);
+            color: var(--bmw-white);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: var(--bmw-transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subscribe-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .subscribe-btn:hover::before {
+            left: 100%;
+        }
+
+        .subscribe-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .testimonial-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .testimonial-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: var(--bmw-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .testimonial-slider {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-slide {
+            background: var(--bmw-card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1rem;
+            text-align: center;
+            transition: var(--bmw-transition);
+        }
+
+        .testimonial-slide:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--bmw-accent);
+        }
+
+        /* Security Section */
+        .security-section {
+            padding: 3rem 2rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .security-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .security-content i {
+            font-size: 3rem;
+            color: var(--bmw-accent);
+            margin-bottom: 1rem;
+        }
+
+        .security-content p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonial-slide {
+                margin: 1rem 0;
+            }
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        /* Add new styles after the existing ones */
+        /* Benefits Showcase */
+        .benefits-showcase {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefits-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .benefit-card {
+            background: var(--bmw-card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: var(--bmw-transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 102, 177, 0.1));
+            z-index: 1;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            color: var(--bmw-accent);
+            margin-bottom: 1.5rem;
+            transition: var(--bmw-transition);
+        }
+
+        .benefit-card:hover .benefit-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .benefit-title {
+            font-size: 1.5rem;
+            color: var(--bmw-white);
+            margin-bottom: 1rem;
+        }
+
+        .benefit-description {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Comparison Table */
+        .comparison-section {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .comparison-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 3rem;
+            background: var(--bmw-card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-table th {
+            background: var(--bmw-gradient);
+            color: var(--bmw-white);
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .feature {
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .comparison-table .check {
+            color: var(--bmw-success);
+        }
+
+        .comparison-table .cross {
+            color: var(--bmw-error);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bmw-card-bg);
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: var(--bmw-transition);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--bmw-white);
+            font-weight: 500;
+        }
+
+        .faq-question i {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* Interactive Features */
+        .interactive-features {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .interactive-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-preview {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+            align-items: center;
+        }
+
+        .feature-image {
+            flex: 1;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .feature-image img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .feature-content {
+            flex: 1;
+        }
+
+        .feature-content h3 {
+            font-size: 2rem;
+            color: var(--bmw-white);
+            margin-bottom: 1rem;
+            background: var(--bmw-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-content p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .feature-list i {
+            color: var(--bmw-accent);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+
+            .feature-preview {
+                flex-direction: column;
+            }
+
+            .feature-image {
+                margin-bottom: 2rem;
+            }
+        }
+
+        /* Back Navigation Button */
+        .back-nav {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: var(--bmw-card-bg);
+            border-radius: 30px;
+            color: var(--bmw-white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--bmw-transition);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--bmw-box-shadow);
+        }
+
+        .back-nav i {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-nav:hover {
+            background: var(--bmw-light-blue);
+            transform: translateX(-5px);
+        }
+
+        .back-nav:hover i {
+            transform: translateX(-3px);
+        }
+
+        .back-nav:active {
+            transform: translateX(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .back-nav {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+            
+            .back-nav i {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Add Back Navigation Button -->
+    <a href="home.html" class="back-nav" data-aos="fade-right">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Home</span>
+    </a>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="floating-elements">
+            <div class="floating-element" style="width: 100px; height: 100px; top: 10%; left: 10%;"></div>
+            <div class="floating-element" style="width: 150px; height: 150px; top: 20%; right: 10%;"></div>
+            <div class="floating-element" style="width: 80px; height: 80px; bottom: 20%; left: 20%;"></div>
+            <div class="floating-element" style="width: 120px; height: 120px; bottom: 30%; right: 20%;"></div>
+        </div>
+        <div class="hero-content" data-aos="fade-up">
+            <h1>Unlock Premium Features</h1>
+            <p>Experience the ultimate BMW ownership with exclusive benefits, priority service, and premium content.</p>
+        </div>
+    </section>
+
+    <!-- Benefits Showcase -->
+    <section class="benefits-showcase">
+        <div class="benefits-container">
+            <div class="pricing-header" data-aos="fade-up">
+                <h2>Premium Benefits</h2>
+                <p>Unlock exclusive features and advantages</p>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-tachometer-alt benefit-icon"></i>
+                    <h3 class="benefit-title">Advanced Diagnostics</h3>
+                    <p class="benefit-description">Get detailed insights about your BMW's performance and health</p>
+                </div>
+                <div class="benefit-card" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-calendar-check benefit-icon"></i>
+                    <h3 class="benefit-title">Priority Service</h3>
+                    <p class="benefit-description">Skip the line with priority scheduling and faster service</p>
+                </div>
+                <div class="benefit-card" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-star benefit-icon"></i>
+                    <h3 class="benefit-title">Exclusive Content</h3>
+                    <p class="benefit-description">Access premium content and early feature releases</p>
+                </div>
+                <div class="benefit-card" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fas fa-headset benefit-icon"></i>
+                    <h3 class="benefit-title">24/7 Support</h3>
+                    <p class="benefit-description">Get dedicated support whenever you need it</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+        <div class="pricing-container">
+            <div class="pricing-header" data-aos="fade-up">
+                <h2>Choose Your Plan</h2>
+                <p>Select the perfect subscription for your BMW experience</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card" data-aos="fade-up" data-aos-delay="100">
+                    <h3>Basic</h3>
+                    <div class="price">$9.99<span>/month</span></div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Basic vehicle diagnostics</li>
+                        <li><i class="fas fa-check"></i> Service reminders</li>
+                        <li><i class="fas fa-check"></i> Basic maintenance tips</li>
+                        <li><i class="fas fa-check"></i> Standard support</li>
+                    </ul>
+                    <a href="#" class="subscribe-btn">Subscribe Now</a>
+                </div>
+                <div class="pricing-card premium" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Premium</h3>
+                    <div class="price">$19.99<span>/month</span></div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Advanced vehicle diagnostics</li>
+                        <li><i class="fas fa-check"></i> Priority service scheduling</li>
+                        <li><i class="fas fa-check"></i> Exclusive content access</li>
+                        <li><i class="fas fa-check"></i> 24/7 premium support</li>
+                        <li><i class="fas fa-check"></i> Early access to new features</li>
+                    </ul>
+                    <a href="#" class="subscribe-btn">Subscribe Now</a>
+                </div>
+                <div class="pricing-card" data-aos="fade-up" data-aos-delay="300">
+                    <h3>Enterprise</h3>
+                    <div class="price">Custom</div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Custom solutions</li>
+                        <li><i class="fas fa-check"></i> Dedicated support team</li>
+                        <li><i class="fas fa-check"></i> API access</li>
+                        <li><i class="fas fa-check"></i> Bulk vehicle management</li>
+                    </ul>
+                    <a href="#" class="subscribe-btn">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="comparison-section">
+        <div class="comparison-container">
+            <div class="pricing-header" data-aos="fade-up">
+                <h2>Plan Comparison</h2>
+                <p>See how our plans stack up against each other</p>
+            </div>
+            <table class="comparison-table" data-aos="fade-up">
+                <thead>
+                    <tr>
+                        <th>Features</th>
+                        <th>Basic</th>
+                        <th>Premium</th>
+                        <th>Enterprise</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="feature">Vehicle Diagnostics</td>
+                        <td class="check"><i class="fas fa-check"></i></td>
+                        <td class="check"><i class="fas fa-check"></i></td>
+                        <td class="check"><i class="fas fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature">Priority Service</td>
+                        <td class="cross"><i class="fas fa-times"></i></td>
+                        <td class="check"><i class="fas fa-check"></i></td>
+                        <td class="check"><i class="fas fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature">24/7 Support</td>
+                        <td class="cross"><i class="fas fa-times"></i></td>
+                        <td class="check"><i class="fas fa-check"></i></td>
+                        <td class="check"><i class="fas fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature">API Access</td>
+                        <td class="cross"><i class="fas fa-times"></i></td>
+                        <td class="cross"><i class="fas fa-times"></i></td>
+                        <td class="check"><i class="fas fa-check"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Interactive Features -->
+    <section class="interactive-features">
+        <div class="interactive-container">
+            <div class="pricing-header" data-aos="fade-up">
+                <h2>Interactive Features</h2>
+                <p>Experience the power of premium</p>
+            </div>
+            <div class="feature-preview" data-aos="fade-up">
+                <div class="feature-image">
+                    <img src="images/features.jpg" alt="BMW Features">
+                </div>
+                <div class="feature-content">
+                    <h3>Real-time Vehicle Monitoring</h3>
+                    <p>Track your BMW's performance in real-time with our advanced monitoring system.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Live performance metrics</li>
+                        <li><i class="fas fa-check"></i> Predictive maintenance alerts</li>
+                        <li><i class="fas fa-check"></i> Custom performance reports</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <div class="pricing-header" data-aos="fade-up">
+                <h2>Frequently Asked Questions</h2>
+                <p>Find answers to common questions</p>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item" data-aos="fade-up">
+                    <div class="faq-question">
+                        <span>What payment methods do you accept?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We accept all major credit cards, PayPal, and bank transfers. All payments are processed securely through our encrypted payment system.</p>
+                    </div>
+                </div>
+                <div class="faq-item" data-aos="fade-up">
+                    <div class="faq-question">
+                        <span>Can I upgrade or downgrade my plan?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, you can change your plan at any time. Upgrades take effect immediately, while downgrades will apply at the end of your current billing cycle.</p>
+                    </div>
+                </div>
+                <div class="faq-item" data-aos="fade-up">
+                    <div class="faq-question">
+                        <span>Is there a free trial available?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we offer a 14-day free trial for our Premium plan. No credit card required to start your trial.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="testimonial-container">
+            <div class="testimonial-header" data-aos="fade-up">
+                <h2>What Our Members Say</h2>
+                <p>Join thousands of satisfied BMW owners</p>
+            </div>
+            <div class="testimonial-slider">
+                <div class="testimonial-slide" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-content">
+                        "The premium subscription has transformed my BMW experience. The priority service and exclusive content are worth every penny."
+                    </div>
+                    <div class="testimonial-author">- Michael R.</div>
+                </div>
+                <div class="testimonial-slide" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-content">
+                        "As a long-time BMW owner, I can say this is the best investment I've made. The advanced diagnostics have saved me time and money."
+                    </div>
+                    <div class="testimonial-author">- Sarah L.</div>
+                </div>
+                <div class="testimonial-slide" data-aos="fade-up" data-aos-delay="300">
+                    <div class="testimonial-content">
+                        "The exclusive content and early access to new features make me feel like a VIP. Highly recommended!"
+                    </div>
+                    <div class="testimonial-author">- David K.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Section -->
+    <section class="security-section">
+        <div class="security-content" data-aos="fade-up">
+            <i class="fas fa-shield-alt"></i>
+            <p>100% Secure Payment</p>
+            <p>Your payment information is encrypted and secure. We never store your credit card details.</p>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Add floating elements dynamically
+        document.addEventListener('DOMContentLoaded', () => {
+            const floatingElements = document.querySelector('.floating-elements');
+            for (let i = 0; i < 10; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                element.style.width = `${Math.random() * 100 + 50}px`;
+                element.style.height = element.style.width;
+                element.style.top = `${Math.random() * 100}%`;
+                element.style.left = `${Math.random() * 100}%`;
+                element.style.animationDelay = `${Math.random() * 5}s`;
+                floatingElements.appendChild(element);
+            }
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                faqItem.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html> 
